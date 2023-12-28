@@ -16,5 +16,7 @@ fun main() {
 }
 
 fun Application.module() {
+    configureSerialization()
+    koinDependencyInjection()
     configureRouting()
 }

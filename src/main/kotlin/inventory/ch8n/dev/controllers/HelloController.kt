@@ -9,3 +9,7 @@ fun Routing.helloController() {
         call.respondText("Hello World!")
     }
 }
+
+fun productController() {
+
+}
