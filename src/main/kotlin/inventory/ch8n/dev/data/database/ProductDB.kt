@@ -8,7 +8,7 @@ class ProductDB {
     private val products = mutableListOf<Product>()
 
     init {
-        repeat(10) {
+        repeat(3) {
             products.add(
                 Product(
                     productId = ProductId(value = it.toLong()),
@@ -16,7 +16,7 @@ class ProductDB {
                     description = "fabulas $it",
                     price = 2.3 * it,
                     stockQuantity = 3912 * it,
-                    imageUrl = "https://picsum.photos/200/300",
+                    imageUrl = listOf("https://picsum.photos/200/300"),
                     category = "per",
                     variants = emptyList()
                 )
@@ -34,8 +34,10 @@ class ProductDB {
         }
     }
 
-    fun remove(product: Product) {
-        products.removeIf { it.productId == product.productId }
+    fun remove(productId: ProductId) {
+        val updated = products.filter { it.productId == productId }
+        products.clear()
+        products.addAll(updated)
     }
 
     fun getAll() = products

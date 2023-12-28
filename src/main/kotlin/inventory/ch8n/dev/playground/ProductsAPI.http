@@ -1,8 +1,47 @@
 
-GET http://0.0.0.0:8080/v1/products HTTP/1.1
+
+#### get all products
+
+GET http://0.0.0.0:8080/v1/products
 Accept: application/json
 
-####
+#### get 1 by id
 
-GET http://0.0.0.0:8080/v1/products?id=asd HTTP/1.1
+GET http://0.0.0.0:8080/v1/products?id=6942060279532144628
 Accept: application/json
+
+#### create new
+
+POST http://0.0.0.0:8080/v1/products/create
+Content-Type: application/json
+
+{
+  "name": "New Product",
+  "description": "A fantastic new product",
+  "price": 49.99,
+  "stockQuantity": 100,
+  "category": "Kada"
+}
+
+#### update items
+
+POST http://0.0.0.0:8080/v1/products/update
+Content-Type: application/json
+
+{
+  "id":6942060279532144628,
+  "name": "New Product 2",
+  "description": "new product",
+  "price": 9.99,
+  "stockQuantity": 20,
+  "category": "Mara"
+}
+
+#### remove
+
+POST http://0.0.0.0:8080/v1/products/remove
+Content-Type: application/json
+
+{
+  "id" : 6942060279532144628
+}
