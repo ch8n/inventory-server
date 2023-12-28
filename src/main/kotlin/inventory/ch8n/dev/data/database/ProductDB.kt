@@ -35,7 +35,7 @@ class ProductDB {
     }
 
     fun remove(productId: ProductId) {
-        val updated = products.filter { it.productId == productId }
+        val updated = products.filter { it.productId != productId }
         products.clear()
         products.addAll(updated)
     }
