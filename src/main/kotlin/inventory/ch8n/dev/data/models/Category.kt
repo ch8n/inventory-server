@@ -15,7 +15,6 @@ data class Category(
 
 @Serializable
 data class CreateCategoryRequest(
-    val categoryId: Long,
     val name: String
 )
 @Serializable

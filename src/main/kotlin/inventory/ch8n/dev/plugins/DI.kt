@@ -2,7 +2,9 @@ package inventory.ch8n.dev.plugins
 
 import inventory.ch8n.dev.data.database.CategoryDB
 import inventory.ch8n.dev.data.database.ProductDB
+import inventory.ch8n.dev.usecases.GetCategoriesUsecases
 import inventory.ch8n.dev.usecases.GetProductUsecases
+import inventory.ch8n.dev.usecases.UpdateCategoriesUsecases
 import inventory.ch8n.dev.usecases.UpdateProductUsecases
 import io.ktor.server.application.*
 import org.koin.dsl.module
@@ -22,4 +24,6 @@ val appModule = module {
     single { CategoryDB() }
     single { GetProductUsecases(get()) }
     single { UpdateProductUsecases(get(), get()) }
+    single { GetCategoriesUsecases(get()) }
+    single { UpdateCategoriesUsecases(get()) }
 }

@@ -20,7 +20,7 @@ fun Routing.categoryController() {
     }
 }
 
-private fun Route.getCategories() {
+fun Route.getCategories() {
     val getCategoriesUsecases by inject<GetCategoriesUsecases>()
     get {
         val parameters = call.request.queryParameters
@@ -51,7 +51,7 @@ private fun Route.getCategories() {
     }
 }
 
-private fun Route.createCategory() {
+fun Route.createCategory() {
     val updateCategoriesUsecases by inject<UpdateCategoriesUsecases>()
     post("/create") {
         try {
@@ -75,7 +75,7 @@ private fun Route.createCategory() {
     }
 }
 
-private fun Route.updateCategory() {
+fun Route.updateCategory() {
     val updateCategoriesUsecases by inject<UpdateCategoriesUsecases>()
     post("/update") {
         try {
@@ -98,7 +98,8 @@ private fun Route.updateCategory() {
         }
     }
 }
-private fun Route.removeCategory() {
+
+fun Route.removeCategory() {
     val updateCategoriesUsecases by inject<UpdateCategoriesUsecases>()
     post("/remove") {
         try {

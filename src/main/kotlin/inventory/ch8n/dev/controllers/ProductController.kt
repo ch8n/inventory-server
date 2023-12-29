@@ -20,7 +20,7 @@ fun Routing.productController() {
     }
 }
 
-private fun Route.getProducts() {
+fun Route.getProducts() {
     val getProductsUsecases by inject<GetProductUsecases>()
     get {
         val parameters = call.request.queryParameters
@@ -51,7 +51,7 @@ private fun Route.getProducts() {
     }
 }
 
-private fun Route.createProduct() {
+fun Route.createProduct() {
     val createProducts by inject<UpdateProductUsecases>()
     post("/create") {
         try {
@@ -75,7 +75,7 @@ private fun Route.createProduct() {
     }
 }
 
-private fun Route.updateProduct() {
+fun Route.updateProduct() {
     val createProducts by inject<UpdateProductUsecases>()
     post("/update") {
         try {
@@ -99,7 +99,7 @@ private fun Route.updateProduct() {
     }
 }
 
-private fun Route.removeProduct() {
+fun Route.removeProduct() {
     val createProducts by inject<UpdateProductUsecases>()
     post("/remove") {
         try {

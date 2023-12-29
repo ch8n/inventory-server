@@ -36,9 +36,7 @@ class CategoryDB {
     }
 
     fun remove(categoryId: CategoryId) {
-        val updated = categories.filter { it.categoryId.value != categoryId.value }
-        categories.clear()
-        categories.addAll(updated)
+        categories.removeIf { it.categoryId.value == categoryId.value }
     }
 
     fun getAll() = categories
