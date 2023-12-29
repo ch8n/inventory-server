@@ -12,3 +12,19 @@ data class Category(
     val categoryId: CategoryId,
     val name: String
 )
+
+@Serializable
+data class CreateCategoryRequest(
+    val categoryId: Long,
+    val name: String
+)
+@Serializable
+data class UpdateCategoryRequest(
+    val categoryId: Long,
+    val name: String
+)
+
+@Serializable
+data class DeleteCategoryRequest(
+    val categoryId: Long
+)

@@ -5,12 +5,12 @@ import inventory.ch8n.dev.data.database.ProductDB
 import inventory.ch8n.dev.data.models.*
 import kotlin.random.Random
 
-class GetProduct(private val productDB: ProductDB) {
+class GetProductUsecases(private val productDB: ProductDB) {
     fun all() = productDB.getAll()
     fun getId(productId: ProductId) = productDB.getById(productId)
 }
 
-class UpsertProduct(
+class UpdateProductUsecases(
     private val productDB: ProductDB,
     private val categoryDB: CategoryDB,
 ) {
@@ -25,7 +25,7 @@ class UpsertProduct(
             price = createProductRequest.price,
             stockQuantity = createProductRequest.stockQuantity,
             imageUrl = emptyList(),
-            category = category,
+            categoryId = category.categoryId,
             variants = listOf()
         )
         productDB.add(product)
@@ -43,7 +43,7 @@ class UpsertProduct(
             description = updateProductRequest.description ?: foundProduct.description,
             price = updateProductRequest.price ?: foundProduct.price,
             stockQuantity = updateProductRequest.stockQuantity ?: foundProduct.stockQuantity,
-            category = category ?: foundProduct.category,
+            categoryId = category?.categoryId ?: foundProduct.categoryId,
         )
         productDB.replace(updated)
         return updated

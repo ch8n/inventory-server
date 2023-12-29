@@ -15,7 +15,7 @@ data class Product(
     val price: Double,
     val stockQuantity: Int,
     val imageUrl: List<String>,
-    val category: Category,
+    val categoryId: CategoryId,
     val variants: List<ProductId>
 )
 
@@ -39,9 +39,7 @@ data class UpdateProductRequest(
 )
 
 @Serializable
-data class DeleteProductRequest(
-    val id: Long
-)
+data class DeleteProductRequest(val id: Long)
 
 
 data class UpdateProductVariantRequest(
@@ -51,7 +49,12 @@ data class UpdateProductVariantRequest(
 
 data class UpdateProductImagesRequest(
     val productId: Long,
-    val images: File,
+    val image: File,
+)
+
+data class DeleteProductImagesRequest(
+    val productId: Long,
+    val image: String,
 )
 
 

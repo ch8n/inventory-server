@@ -4,6 +4,7 @@ import inventory.ch8n.dev.data.models.Category
 import inventory.ch8n.dev.data.models.CategoryId
 import inventory.ch8n.dev.data.models.Product
 import inventory.ch8n.dev.data.models.ProductId
+import kotlin.random.Random
 
 class ProductDB {
 
@@ -19,10 +20,7 @@ class ProductDB {
                     price = 2.3 * it,
                     stockQuantity = 3912 * it,
                     imageUrl = listOf("https://picsum.photos/200/300"),
-                    category = Category(
-                        categoryId = CategoryId(value = 1586),
-                        name = "Amy French"
-                    ),
+                    categoryId = CategoryId(value = it.toLong()),
                     variants = emptyList()
                 )
             )
