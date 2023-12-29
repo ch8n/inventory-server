@@ -12,7 +12,7 @@ import org.koin.ktor.ext.inject
 
 
 fun Routing.categoryController() {
-    route("v1/category") {
+    route("v1/categories") {
         getCategories()
         createCategory()
         updateCategory()

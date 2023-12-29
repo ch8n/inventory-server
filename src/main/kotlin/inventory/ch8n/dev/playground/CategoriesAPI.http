@@ -1,6 +1,6 @@
-#### get all products
+#### get all category
 
-GET http://0.0.0.0:8080/v1/products
+GET http://0.0.0.0:8080/v1/categories
 Accept: application/json
 
 #### get 1 by id
