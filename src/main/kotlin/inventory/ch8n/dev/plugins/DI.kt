@@ -1,5 +1,6 @@
 package inventory.ch8n.dev.plugins
 
+import inventory.ch8n.dev.data.database.CategoryDB
 import inventory.ch8n.dev.data.database.ProductDB
 import inventory.ch8n.dev.usecases.GetProduct
 import inventory.ch8n.dev.usecases.UpsertProduct
@@ -18,6 +19,7 @@ fun Application.koinDependencyInjection() {
 
 val appModule = module {
     single { ProductDB() }
+    single { CategoryDB() }
     single { GetProduct(get()) }
-    single { UpsertProduct(get()) }
+    single { UpsertProduct(get(), get()) }
 }

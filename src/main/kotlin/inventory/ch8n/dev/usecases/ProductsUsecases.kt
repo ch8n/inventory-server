@@ -1,11 +1,8 @@
 package inventory.ch8n.dev.usecases
 
+import inventory.ch8n.dev.data.database.CategoryDB
 import inventory.ch8n.dev.data.database.ProductDB
-import inventory.ch8n.dev.data.models.CreateProductRequest
-import inventory.ch8n.dev.data.models.Product
-import inventory.ch8n.dev.data.models.ProductId
-import inventory.ch8n.dev.data.models.UpdateProductRequest
-import java.util.UUID
+import inventory.ch8n.dev.data.models.*
 import kotlin.random.Random
 
 class GetProduct(private val productDB: ProductDB) {
@@ -13,8 +10,14 @@ class GetProduct(private val productDB: ProductDB) {
     fun getId(productId: ProductId) = productDB.getById(productId)
 }
 
-class UpsertProduct(private val productDB: ProductDB) {
+class UpsertProduct(
+    private val productDB: ProductDB,
+    private val categoryDB: CategoryDB,
+) {
     fun create(createProductRequest: CreateProductRequest): Product {
+        val category = categoryDB
+            .getById(CategoryId(createProductRequest.categoryId))
+            ?: throw IllegalArgumentException("Category not found!")
         val product = Product(
             productId = ProductId(value = Random.nextLong()),
             name = createProductRequest.name,
@@ -22,7 +25,7 @@ class UpsertProduct(private val productDB: ProductDB) {
             price = createProductRequest.price,
             stockQuantity = createProductRequest.stockQuantity,
             imageUrl = emptyList(),
-            category = createProductRequest.category,
+            category = category,
             variants = listOf()
         )
         productDB.add(product)
@@ -30,14 +33,17 @@ class UpsertProduct(private val productDB: ProductDB) {
     }
 
     fun update(updateProductRequest: UpdateProductRequest): Product {
-        val founded = productDB.getById(ProductId(updateProductRequest.id))
+        val foundProduct = productDB.getById(ProductId(updateProductRequest.id))
             ?: throw IllegalStateException("Product not found by id ${updateProductRequest.id}")
-        val updated = founded.copy(
-            name = updateProductRequest.name ?: founded.name,
-            description = updateProductRequest.description ?: founded.description,
-            price = updateProductRequest.price ?: founded.price,
-            stockQuantity = updateProductRequest.stockQuantity ?: founded.stockQuantity,
-            category = updateProductRequest.category ?: founded.category,
+
+        val category = categoryDB.getById(CategoryId(updateProductRequest.categoryId ?: -1))
+
+        val updated = foundProduct.copy(
+            name = updateProductRequest.name ?: foundProduct.name,
+            description = updateProductRequest.description ?: foundProduct.description,
+            price = updateProductRequest.price ?: foundProduct.price,
+            stockQuantity = updateProductRequest.stockQuantity ?: foundProduct.stockQuantity,
+            category = category ?: foundProduct.category,
         )
         productDB.replace(updated)
         return updated

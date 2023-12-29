@@ -7,7 +7,7 @@ Accept: application/json
 
 #### get 1 by id
 
-GET http://0.0.0.0:8080/v1/products?id=4458075648000338981
+GET http://0.0.0.0:8080/v1/products?id=1700141310321307896
 Accept: application/json
 
 #### create new
@@ -29,7 +29,7 @@ POST http://0.0.0.0:8080/v1/products/update
 Content-Type: application/json
 
 {
-  "id":4458075648000338981,
+  "id":1700141310321307896,
   "name": "New Product 2",
   "description": "new product",
   "price": 9.99,
@@ -43,5 +43,5 @@ POST http://0.0.0.0:8080/v1/products/remove
 Content-Type: application/json
 
 {
-  "id" : 6942060279532144628
+  "id" : 1700141310321307896
 }

@@ -15,7 +15,7 @@ data class Product(
     val price: Double,
     val stockQuantity: Int,
     val imageUrl: List<String>,
-    val category: String,
+    val category: Category,
     val variants: List<ProductId>
 )
 
@@ -25,7 +25,7 @@ data class CreateProductRequest(
     val description: String,
     val price: Double,
     val stockQuantity: Int,
-    val category: String,
+    val categoryId: Long,
 )
 
 @Serializable
@@ -35,7 +35,7 @@ data class UpdateProductRequest(
     val description: String?,
     val price: Double?,
     val stockQuantity: Int?,
-    val category: String?,
+    val categoryId: Long?,
 )
 
 @Serializable

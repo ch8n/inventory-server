@@ -1,5 +1,7 @@
 package inventory.ch8n.dev.data.database
 
+import inventory.ch8n.dev.data.models.Category
+import inventory.ch8n.dev.data.models.CategoryId
 import inventory.ch8n.dev.data.models.Product
 import inventory.ch8n.dev.data.models.ProductId
 
@@ -17,7 +19,10 @@ class ProductDB {
                     price = 2.3 * it,
                     stockQuantity = 3912 * it,
                     imageUrl = listOf("https://picsum.photos/200/300"),
-                    category = "per",
+                    category = Category(
+                        categoryId = CategoryId(value = 1586),
+                        name = "Amy French"
+                    ),
                     variants = emptyList()
                 )
             )
@@ -30,17 +35,17 @@ class ProductDB {
 
     fun replace(product: Product) {
         products.replaceAll {
-            if (it.productId == product.productId) product else it
+            if (it.productId.value == product.productId.value) product else it
         }
     }
 
     fun remove(productId: ProductId) {
-        val updated = products.filter { it.productId != productId }
+        val updated = products.filter { it.productId.value != productId.value }
         products.clear()
         products.addAll(updated)
     }
 
     fun getAll() = products
 
-    fun getById(productId: ProductId) = products.find { it.productId == productId }
+    fun getById(productId: ProductId) = products.find { it.productId.value == productId.value }
 }
