@@ -43,3 +43,34 @@ Content-Type: application/json
 {
   "id" : 1700141310321307896
 }
+
+#### add varient
+
+POST http://0.0.0.0:8080/v1/products/variant/add
+Content-Type: application/json
+
+{
+  "productId" : 0,
+  "variantProductId" : 1
+}
+
+#### add image
+POST http://localhost:8080/v1/products/image/add?product_id=0
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.jpeg"
+Content-Type: image/jpeg
+
+base64 example.jpeg
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+#### remove image
+POST http://localhost:8080/v1/products/image/remove
+Content-Type: application/json
+
+{
+  "productId" : 0,
+  "imageUrl" : "uploads/Lourdes_Lee_03.jpeg"
+}

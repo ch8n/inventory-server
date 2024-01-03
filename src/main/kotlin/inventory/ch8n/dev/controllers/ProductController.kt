@@ -4,11 +4,14 @@ import inventory.ch8n.dev.data.models.*
 import inventory.ch8n.dev.usecases.GetProductUsecases
 import inventory.ch8n.dev.usecases.UpdateProductUsecases
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 import org.koin.ktor.ext.inject
+import java.io.File
 
 
 fun Routing.productController() {
@@ -17,6 +20,10 @@ fun Routing.productController() {
         createProduct()
         updateProduct()
         removeProduct()
+        addProductVariant()
+        removeProductVariant()
+        addProductImage()
+        removeProductImage()
     }
 }
 
@@ -122,6 +129,107 @@ fun Route.removeProduct() {
         }
     }
 }
+
+fun Route.addProductVariant() {
+    val createProducts by inject<UpdateProductUsecases>()
+    post("/variant/add") {
+        try {
+            val addProductVariantRequest = call.receive<AddProductVariantRequest>()
+            val product = createProducts.addVariant(addProductVariantRequest)
+            call.respond(
+                HttpStatusCode.Created,
+                Response<Product>(data = product)
+            )
+        } catch (e: Exception) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                Response<Product>(
+                    error = ResponseError(
+                        serverError = e.message ?: e.localizedMessage ?: "",
+                        clientError = "Something went wrong!"
+                    )
+                )
+            )
+        }
+    }
+}
+
+fun Route.removeProductVariant() {
+    val createProducts by inject<UpdateProductUsecases>()
+    post("/variant/remove") {
+        try {
+            val removeProductVariantRequest = call.receive<RemoveProductVariantRequest>()
+            val product = createProducts.removeVariant(removeProductVariantRequest)
+            call.respond(
+                HttpStatusCode.Accepted,
+                Response<Product>(data = product)
+            )
+        } catch (e: Exception) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                Response<Product>(
+                    error = ResponseError(
+                        serverError = e.message ?: e.localizedMessage ?: "",
+                        clientError = "Something went wrong!"
+                    )
+                )
+            )
+        }
+    }
+}
+
+
+fun Route.addProductImage() {
+    val createProducts by inject<UpdateProductUsecases>()
+    post("/image/add") {
+        try {
+            val productIdString = call.request.queryParameters.getOrFail("product_id")?.toLongOrNull() ?: throw IllegalArgumentException("Wrong format id!")
+            val productId = ProductId(productIdString)
+            val uploadedFileMultipart = call.receiveMultipart()
+            val product = createProducts.uploadFile(uploadedFileMultipart,productId)
+            call.respond(
+                HttpStatusCode.Created,
+                Response<Product>(data = product)
+            )
+        } catch (e: Exception) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                Response<Product>(
+                    error = ResponseError(
+                        serverError = e.message ?: e.localizedMessage ?: "",
+                        clientError = "Something went wrong!"
+                    )
+                )
+            )
+        }
+    }
+}
+
+fun Route.removeProductImage() {
+    val createProducts by inject<UpdateProductUsecases>()
+    post("/image/remove") {
+        val deleteProductImage = call.receive<RemoveProductImageRequest>()
+        try {
+            val product = createProducts.deleteImageOfProduct(deleteProductImage)
+            call.respond(
+                HttpStatusCode.Created,
+                Response<Product>(data = product)
+            )
+        } catch (e: Exception) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                Response<Product>(
+                    error = ResponseError(
+                        serverError = e.message ?: e.localizedMessage ?: "",
+                        clientError = "Something went wrong!"
+                    )
+                )
+            )
+        }
+    }
+}
+
+
 
 
 

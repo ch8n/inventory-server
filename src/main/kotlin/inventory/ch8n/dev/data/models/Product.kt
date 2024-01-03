@@ -1,7 +1,6 @@
 package inventory.ch8n.dev.data.models
 
 import kotlinx.serialization.Serializable
-import java.io.File
 
 @JvmInline
 @Serializable
@@ -14,7 +13,7 @@ data class Product(
     val description: String,
     val price: Double,
     val stockQuantity: Int,
-    val imageUrl: List<String>,
+    val imageUrls: List<String>,
     val categoryId: CategoryId,
     val variants: List<ProductId>
 )
@@ -42,19 +41,22 @@ data class UpdateProductRequest(
 data class DeleteProductRequest(val id: Long)
 
 
-data class UpdateProductVariantRequest(
+@Serializable
+data class AddProductVariantRequest(
     val productId: Long,
-    val productIds: List<Long>
+    val variantProductId: Long
 )
 
-data class UpdateProductImagesRequest(
+@Serializable
+data class RemoveProductVariantRequest(
     val productId: Long,
-    val image: File,
+    val variantProductId: Long
 )
 
-data class DeleteProductImagesRequest(
+@Serializable
+data class RemoveProductImageRequest(
     val productId: Long,
-    val image: String,
+    val imageUrl: String
 )
 
 
