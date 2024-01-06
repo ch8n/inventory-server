@@ -22,7 +22,8 @@ data class Order(
     val orderStatus: OrderStatus,
     val products: List<OrderItem>,
     val orderDate: Long,
-    val totalAmount: Double
+    val totalAmount: Double,
+    val trackingId: String,
 )
 
 @Serializable

@@ -1,6 +1,7 @@
 package inventory.ch8n.dev.data.database
 
 import inventory.ch8n.dev.data.models.*
+import java.util.UUID
 import kotlin.random.Random
 
 class OrderDB {
@@ -32,7 +33,8 @@ class OrderDB {
                     ),
                     orderDate = 9050,
                     totalAmount = 2.3,
-                    orderStatus = OrderStatus.Booked
+                    orderStatus = OrderStatus.Booked,
+                    trackingId = UUID.randomUUID().toString()
                 )
             )
         }
