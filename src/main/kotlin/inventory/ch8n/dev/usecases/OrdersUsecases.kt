@@ -2,6 +2,7 @@ package inventory.ch8n.dev.usecases
 
 import inventory.ch8n.dev.data.database.OrderDB
 import inventory.ch8n.dev.data.models.*
+import java.util.UUID
 import kotlin.random.Random
 
 class GetOrdersUsecase(private val orderDB: OrderDB) {
@@ -42,7 +43,8 @@ class UpdateOrdersUsecase(
             orderDate = System.currentTimeMillis(),
             totalAmount = orderItems.entries.sumOf { (product, qty) ->
                 product.price * qty
-            }
+            },
+            trackingId = UUID.randomUUID().toString()
         )
 
         orderDB.add(order)
