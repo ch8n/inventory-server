@@ -2,6 +2,7 @@
 	import type { Category } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
 	import * as Tabs from '$lib/components/ui/tabs';
+	import ProductGrid from '$lib/components/components/product-grid.svelte';
 
 	let categories: Category[] = [];
 	let currentCategory: Category | null = null;
@@ -61,7 +62,7 @@
 
 				<div class="text-grey-900 my-4">
 					<Tabs.Content value={currentCategory?.categoryId || ''}>
-						{currentCategory?.categoryName || ''}
+						<ProductGrid />
 					</Tabs.Content>
 				</div>
 			</Tabs.Root>
