@@ -45,13 +45,17 @@
 			<div class="text-md">Loading...</div>
 		{:else}
 			<Tabs.Root value={currentCategory?.categoryId || ''}>
-				<Tabs.List class="border border-gray-300 rounded-md m-auto">
+				<Tabs.List class="border border-gray-300 rounded-md flex overflow-x-scroll">
 					{#each categories as catgoryTab}
-						<Tabs.Trigger class="px-2" value={catgoryTab?.categoryId || ''} on:click={(e) => {
-							updateCurrentCategory(catgoryTab)
-						}}
-							>{catgoryTab?.categoryName || ''}
-						</Tabs.Trigger>
+						<div class="shrink-0 px-1">
+							<Tabs.Trigger
+								value={catgoryTab?.categoryId || ''}
+								on:click={(e) => {
+									updateCurrentCategory(catgoryTab);
+								}}
+								>{catgoryTab?.categoryName || ''}
+							</Tabs.Trigger>
+						</div>
 					{/each}
 				</Tabs.List>
 

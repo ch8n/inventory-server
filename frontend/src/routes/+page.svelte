@@ -12,7 +12,7 @@
 	};
 </script>
 
-<div class="mx-auto px-6 py-6">
+<div class="mx-auto px-6 py-6 overflow-x-hidden">
 	<Tabs.Root value={currentTab}>
 		<div class="text-gray-900 grid grid-cols-3">
 			<Icon src={Bars4} size="32" class="border border-gray-300 rounded-md p-1" />
@@ -33,11 +33,11 @@
 		<div class="text-grey-900 my-4">
 			<Tabs.Content value={currentTab}>
 				{#if currentTab === HomePageTab.Women}
-					<TheFashionJewellery />
-				{:else}
-					<KeyRingIstan />
-				{/if}
+						<TheFashionJewellery />
+					{:else}
+						<KeyRingIstan />
+					{/if}
 			</Tabs.Content>
-		</div>
+		</div>		
 	</Tabs.Root>
 </div>
