@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import type { Product } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
+	let id = $page.params.id;
 
 	let products: Product[] = [];
 
@@ -32,20 +34,6 @@
 	});
 </script>
 
-<div class="">
-	<div class="py-4 grid gap-4 grid-cols-2 grid-rows-2">
-		{#if products.length === 0}
-			<div class="border-2 border-sky-500 rounded-sm w-96 h-96">
-				<div class="text-md">Loading...</div>
-			</div>
-		{:else}
-			{#each products as product}
-				<div class="py-2 border-2 border-sky-500 rounded-sm w-5/6 h-48 flex-col">
-					<img class="h-24 w-full object-cover" src={product.imageUrls[0]} />
-					<div class="text-md">{product.name}</div>
-					<div class="text-md">{product.price}</div>
-				</div>
-			{/each}
-		{/if}
-	</div>
+<div class="mx-auto px-6 py-6">
+	<p class="text-xl">Produce {id}</p>
 </div>

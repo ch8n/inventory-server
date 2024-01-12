@@ -1,39 +1,5 @@
 <script lang="ts">
-	import type { Category } from '$lib/data/HomePage';
-	import { onMount } from 'svelte';
-	import * as Tabs from '$lib/components/ui/tabs';
-	import ProductGrid from '$lib/components/components/product-grid.svelte';
-
-	let categories: Category[] = [];
-	let currentCategory: Category | null = null;
-
-	onMount(async () => {
-		try {
-			const response = await fetch('http://0.0.0.0:8080/v1/categories');
-			if (response.ok) {
-				let _response: any = await response.json();
-				categories = _response.data.map((it: any) => {
-					let item: Category = {
-						categoryId: it.categoryId,
-						categoryName: it.name
-					};
-					return item;
-				});
-				if (categories.length != 0) {
-					currentCategory = categories[0];
-				}
-				console.log(categories);
-			} else {
-				console.error('Failed to fetch data:', response.status, response.statusText);
-			}
-		} catch (error) {
-			console.error('Error during fetch:', error.message);
-		}
-	});
-
-	const updateCurrentCategory = (category: Category | null) => {
-		currentCategory = category;
-	};
+	import CategoryGrid from '$lib/components/components/category-grid.svelte';
 </script>
 
 <div class="py-4">
@@ -42,30 +8,9 @@
 	<div class="border border-gray-300 h-48 my-2 p-4 rounded-xl">Place holder for banner</div>
 
 	<div class="py-4">
-		{#if categories.length === 0}
-			<div class="text-md">Loading...</div>
-		{:else}
-			<Tabs.Root value={currentCategory?.categoryId || ''}>
-				<Tabs.List class="border border-gray-300 rounded-md flex overflow-x-scroll">
-					{#each categories as catgoryTab}
-						<div class="shrink-0 px-1">
-							<Tabs.Trigger
-								value={catgoryTab?.categoryId || ''}
-								on:click={(e) => {
-									updateCurrentCategory(catgoryTab);
-								}}
-								>{catgoryTab?.categoryName || ''}
-							</Tabs.Trigger>
-						</div>
-					{/each}
-				</Tabs.List>
-
-				<div class="text-grey-900 my-4">
-					<Tabs.Content value={currentCategory?.categoryId || ''}>
-						<ProductGrid />
-					</Tabs.Content>
-				</div>
-			</Tabs.Root>
-		{/if}
+		<div class="text-xl bold">Explore</div>
+		<div class="text-grey-900 my-4">
+			<CategoryGrid />
+		</div>
 	</div>
 </div>

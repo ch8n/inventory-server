@@ -1,22 +1,22 @@
 package inventory.ch8n.dev.controllers
 
 import inventory.ch8n.dev.data.models.*
+import inventory.ch8n.dev.usecases.GetCategoriesUsecases
 import inventory.ch8n.dev.usecases.GetProductUsecases
 import inventory.ch8n.dev.usecases.UpdateProductUsecases
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import org.koin.ktor.ext.inject
-import java.io.File
 
 
 fun Routing.productController() {
     route("v1/products") {
         getProducts()
+        getByCategory()
         createProduct()
         updateProduct()
         removeProduct()
@@ -40,6 +40,34 @@ fun Route.getProducts() {
                     listOfNotNull(getProductsUsecases.getId(ProductId(longId)))
                 }
             }
+            call.respond(
+                HttpStatusCode.OK,
+                Response<List<Product>>(data = products)
+            )
+        } catch (e: Exception) {
+            call.respond(
+                HttpStatusCode.InternalServerError,
+                Response<List<Product>>(
+                    error = ResponseError(
+                        serverError = e.message ?: e.localizedMessage ?: "",
+                        clientError = "Something went wrong!"
+                    )
+                )
+            )
+        }
+    }
+}
+
+fun Route.getByCategory() {
+    val getProductsUsecases by inject<GetProductUsecases>()
+    val getCategoryUsecases by inject<GetCategoriesUsecases>()
+    get("/category") {
+        val parameters = call.request.queryParameters
+        val categoryIdLong = parameters["id"]?.toLongOrNull() ?: throw IllegalArgumentException("Invalid format category id")
+        try {
+            val categoryId = CategoryId(categoryIdLong)
+            val category = getCategoryUsecases.getId(categoryId = categoryId) ?: throw IllegalArgumentException("Category not found!")
+            val products = getProductsUsecases.getByCategory(categoryId)
             call.respond(
                 HttpStatusCode.OK,
                 Response<List<Product>>(data = products)

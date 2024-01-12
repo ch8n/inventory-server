@@ -44,4 +44,5 @@ class ProductDB {
     fun getAll() = products
 
     fun getById(productId: ProductId) = products.find { it.productId.value == productId.value }
+    fun getByCategory(categoryId: CategoryId) = products.filter { it.categoryId.value == categoryId.value }
 }

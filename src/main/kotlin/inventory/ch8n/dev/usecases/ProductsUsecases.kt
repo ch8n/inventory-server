@@ -14,6 +14,7 @@ import kotlin.random.Random
 class GetProductUsecases(private val productDB: ProductDB) {
     fun all() = productDB.getAll()
     fun getId(productId: ProductId) = productDB.getById(productId)
+    fun getByCategory(categoryId: CategoryId) = productDB.getByCategory(categoryId)
 }
 
 class UpdateProductUsecases(
