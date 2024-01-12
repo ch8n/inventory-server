@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { Product } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
@@ -44,11 +45,16 @@
 			</div>
 		{:else}
 			{#each products as product}
-				<div class="py-2 border-2 border-sky-500 rounded-sm w-5/6 h-48 flex-col">
+				<button
+					on:click={(e) => {
+						goto(`/category/${categoryId}/product/${product.productId}`);
+					}}
+					class="py-2 border-2 border-sky-500 rounded-sm w-5/6 h-48 flex-col"
+				>
 					<img class="h-24 w-full object-cover" src={product.imageUrls[0]} />
 					<div class="text-md">{product.name}</div>
 					<div class="text-md">{product.price}</div>
-				</div>
+				</button>
 			{/each}
 		{/if}
 	</div>
