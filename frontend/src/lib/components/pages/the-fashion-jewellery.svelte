@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CategoryGrid from '$lib/components/components/category-grid.svelte';
+	import CategoryGrid from '$lib/components/sections/category-grid.svelte';
 </script>
 
 <div class="py-4">

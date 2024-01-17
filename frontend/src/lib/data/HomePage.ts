@@ -18,3 +18,4 @@ export type Product = {
 	categoryId: number;
 	variants: number[];
 };
+

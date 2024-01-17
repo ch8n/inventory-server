@@ -1,6 +1,4 @@
 <script lang="ts">
-	import CartComponent from '../../../../../lib/components/sections/cart-component.svelte';
-
 	import { page } from '$app/stores';
 	import type { Product } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
@@ -60,15 +58,13 @@
 	};
 </script>
 
-<div class="mx-auto px-6 py-6">
-	<p class="text-xl">Product {productId}</p>
-	<p>Name - {product?.name}</p>
+<div>
+		<p>Cart items</p>
+		{#each $cart as cartItem}
+			<div>
+				<h3>{cartItem.productId}</h3>
+				<p>{cartItem.quantity}</p>
+			</div>
+		{/each}
+	</div>
 
-	<button
-		on:click={(e) => {
-			addToCart();
-		}}>Add to cart</button
-	>
-
-	<CartComponent />
-</div>
