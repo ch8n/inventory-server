@@ -1,11 +1,14 @@
 <script lang="ts">
+	import OfferCarousels from '$lib/components/sections/carousel-offers.svelte';
+
 	import CategoryGrid from '$lib/components/sections/category-grid.svelte';
+	import Title from '$lib/components/sections/title.svelte';
 </script>
 
 <div class="py-4">
-	<div class="text-xl bold">The Fashion Jewellery</div>
+	<Title label={'The Fashion Jewellery'} />
 
-	<div class="border border-gray-300 h-48 my-2 p-4 rounded-xl">Place holder for banner</div>
+	<OfferCarousels />
 
 	<div class="py-4">
 		<div class="text-xl bold">Explore</div>

@@ -1,4 +1,4 @@
-export enum HomePageTab {
+export enum GenderTab {
 	Women = 'Women',
 	Men = 'Men'
 }
