@@ -12,7 +12,7 @@ class OffersDB {
             offers.add(
                 Offer(
                     offerId = OfferId(value = it.toLong()),
-                    bannerUrl = "https://picsum.photos/200/300",
+                    bannerUrl = "https://picsum.photos/200/300?random=1",
                 )
             )
         }

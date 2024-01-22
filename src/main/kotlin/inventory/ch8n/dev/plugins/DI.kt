@@ -1,11 +1,9 @@
 package inventory.ch8n.dev.plugins
 
 import inventory.ch8n.dev.data.database.CategoryDB
+import inventory.ch8n.dev.data.database.OffersDB
 import inventory.ch8n.dev.data.database.ProductDB
-import inventory.ch8n.dev.usecases.GetCategoriesUsecases
-import inventory.ch8n.dev.usecases.GetProductUsecases
-import inventory.ch8n.dev.usecases.UpdateCategoriesUsecases
-import inventory.ch8n.dev.usecases.UpdateProductUsecases
+import inventory.ch8n.dev.usecases.*
 import io.ktor.server.application.*
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
@@ -21,9 +19,11 @@ fun Application.koinDependencyInjection() {
 
 val appModule = module {
     single { ProductDB() }
+    single { OffersDB() }
     single { CategoryDB() }
     single { GetProductUsecases(get()) }
     single { UpdateProductUsecases(get(), get()) }
     single { GetCategoriesUsecases(get()) }
     single { UpdateCategoriesUsecases(get()) }
+    single { GetOffersUseCase(get()) }
 }

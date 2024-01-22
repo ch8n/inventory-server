@@ -5,6 +5,10 @@
 
 	let categories: Category[] = [];
 
+	const getIcon = (categoryId: string) => {
+		return 'https://picsum.photos/200/300?random=1';
+	};
+
 	onMount(async () => {
 		try {
 			const response = await fetch('http://0.0.0.0:8080/v1/categories');
@@ -29,20 +33,19 @@
 
 <div class="">
 	<div class="py-4 grid gap-4 grid-cols-2 grid-rows-2">
-		{#if categories.length === 0}
-			<div class="border-2 border-sky-500 rounded-sm w-96 h-96">
-				<div class="text-md">Loading...</div>
-			</div>
-		{:else}
+		{#if categories.length !== 0}
 			{#each categories as category}
 				<button
-					class="py-2 border-2 border-sky-500 rounded-sm w-11/12 text-wrap"
+					class="border-2 border-sky-500 rounded-sm w-11/12 h-36 text-wrap"
 					on:click={(e) => {
 						goto(`/category/${category.categoryId}`);
 					}}
 				>
-					<h3>{category.categoryId}</h3>
-					<p>{category.categoryName}</p>
+					<div
+						class="bg-cover bg-center w-full h-5/6 overflow-clip"
+						style={`background-image: url(${getIcon(category.categoryId)})`}
+					/>
+					<p class="truncate text-center">{category.categoryName}</p>
 				</button>
 			{/each}
 		{/if}

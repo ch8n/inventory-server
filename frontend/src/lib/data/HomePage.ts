@@ -8,6 +8,11 @@ export type Category = {
 	categoryName: string;
 };
 
+export type OfferPagerItem = {
+	offerId: string;
+	bannerUrl: string;
+};
+
 export type Product = {
 	productId: number;
 	name: string;
@@ -18,4 +23,3 @@ export type Product = {
 	categoryId: number;
 	variants: number[];
 };
-
