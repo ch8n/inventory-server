@@ -1,5 +1,6 @@
 <script lang="ts">
-	import BottomBar from '../sections/bottom-bar.svelte';
+	import BottomBar from '$lib/components/sections/bottom-bar.svelte';
+	import Pagination from '$lib/components/sections/pagination.svelte';
 
 	import OfferCarousels from '$lib/components/sections/carousel-offers.svelte';
 
@@ -47,7 +48,8 @@
 
 	<CategoryGrid />
 
+
 	<BottomBar />
 
-	<div class="my-12"/>
+	<div class="my-12" />
 </div>
