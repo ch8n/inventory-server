@@ -89,7 +89,7 @@
 	<div class="my-40" />
 
 	<div class="fixed bottom-16 left-0 w-full place-items-center grid grid-cols-1 grid-rows-1">
-		<div class="grid grid-cols-1 px-2 pt-2 pb-4 place-items-center bg-white rounded-lg">
+		<div class="grid grid-cols-1 px-2 pt-2 pb-4 place-items-center bg-white rounded-lg border">
 			<Pagination totalCount={totalProductCount} onPageNumberChange={onPageChange} />
 		</div>
 	</div>
