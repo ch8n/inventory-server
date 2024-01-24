@@ -1,9 +1,7 @@
 <script lang="ts">
-	import type { Category } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-
-	let categories: Category[] = [];
+	import { categories, type Category } from '$lib/stores/categoryStore';
 
 	const getIcon = (categoryId: string) => {
 		return 'https://picsum.photos/200/300?random=1';
@@ -14,14 +12,14 @@
 			const response = await fetch('http://0.0.0.0:8080/v1/categories');
 			if (response.ok) {
 				let _response: any = await response.json();
-				categories = _response.data.map((it: any) => {
+				let _categories = _response.data.map((it: any) => {
 					let item: Category = {
 						categoryId: it.categoryId,
 						categoryName: it.name
 					};
 					return item;
 				});
-				console.log(categories);
+				categories.set(_categories);
 			} else {
 				console.error('Failed to fetch data:', response.status, response.statusText);
 			}
@@ -33,8 +31,8 @@
 
 <div class="">
 	<div class="py-4 grid gap-4 grid-cols-2 grid-rows-2">
-		{#if categories.length !== 0}
-			{#each categories as category}
+		{#if $categories.length !== 0}
+			{#each $categories as category}
 				<button
 					class="border-2 border-sky-500 rounded-sm w-11/12 h-36 text-wrap"
 					on:click={(e) => {

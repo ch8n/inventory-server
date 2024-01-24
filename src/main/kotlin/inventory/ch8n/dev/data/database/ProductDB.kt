@@ -9,7 +9,7 @@ class ProductDB {
     private val products = mutableListOf<Product>()
 
     init {
-        repeat(3) {
+        repeat(20) {
             products.add(
                 Product(
                     productId = ProductId(value = it.toLong()),
@@ -18,7 +18,7 @@ class ProductDB {
                     price = 2.3 * it,
                     stockQuantity = 3912 * it,
                     imageUrls = listOf("https://picsum.photos/200/300"),
-                    categoryId = CategoryId(value = it.toLong()),
+                    categoryId = CategoryId(value = 0),
                     variants = emptyList()
                 )
             )

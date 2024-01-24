@@ -3,10 +3,6 @@ export enum GenderTab {
 	Men = 'Men'
 }
 
-export type Category = {
-	categoryId: string;
-	categoryName: string;
-};
 
 export type OfferPagerItem = {
 	offerId: string;

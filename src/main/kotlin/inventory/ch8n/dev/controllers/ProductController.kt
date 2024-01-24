@@ -32,26 +32,38 @@ fun Route.getProducts() {
     get {
         val parameters = call.request.queryParameters
         val id = parameters["id"]
+        val page = parameters["page"]?.toIntOrNull() ?: 0
+        var totalPageCount = 0
         try {
             val products = when {
-                id == null -> getProductsUsecases.all()
+                id == null -> {
+                    val chunks = getProductsUsecases.all().chunked(12)
+                    totalPageCount = chunks.size
+                    chunks.getOrNull(page) ?: emptyList()
+                }
+
                 else -> {
                     val longId = id.toLongOrNull() ?: throw IllegalArgumentException("Invalid id")
                     listOfNotNull(getProductsUsecases.getId(ProductId(longId)))
                 }
             }
+
             call.respond(
                 HttpStatusCode.OK,
-                Response<List<Product>>(data = products)
+                PagedResponse<List<Product>>(
+                    data = products,
+                    paged = Paged(currentPage = page, totalPageSize = totalPageCount)
+                )
             )
         } catch (e: Exception) {
             call.respond(
                 HttpStatusCode.InternalServerError,
-                Response<List<Product>>(
+                PagedResponse<List<Product>>(
                     error = ResponseError(
                         serverError = e.message ?: e.localizedMessage ?: "",
                         clientError = "Something went wrong!"
-                    )
+                    ),
+                    paged = Paged(currentPage = page, totalPageSize = 0)
                 )
             )
         }
@@ -63,23 +75,31 @@ fun Route.getByCategory() {
     val getCategoryUsecases by inject<GetCategoriesUsecases>()
     get("/category") {
         val parameters = call.request.queryParameters
-        val categoryIdLong = parameters["id"]?.toLongOrNull() ?: throw IllegalArgumentException("Invalid format category id")
+        val categoryIdLong =
+            parameters["id"]?.toLongOrNull() ?: throw IllegalArgumentException("Invalid format category id")
+        val page = parameters["page"]?.toIntOrNull() ?: 0
         try {
             val categoryId = CategoryId(categoryIdLong)
-            val category = getCategoryUsecases.getId(categoryId = categoryId) ?: throw IllegalArgumentException("Category not found!")
-            val products = getProductsUsecases.getByCategory(categoryId)
+            val category = getCategoryUsecases.getId(categoryId = categoryId)
+                ?: throw IllegalArgumentException("Category not found!")
+            val chunked = getProductsUsecases.getByCategory(categoryId).chunked(12)
+            val products = chunked.getOrNull(page) ?: emptyList()
             call.respond(
                 HttpStatusCode.OK,
-                Response<List<Product>>(data = products)
+                PagedResponse<List<Product>>(
+                    data = products,
+                    paged = Paged(currentPage = page, totalPageSize = chunked.size)
+                )
             )
         } catch (e: Exception) {
             call.respond(
                 HttpStatusCode.InternalServerError,
-                Response<List<Product>>(
+                PagedResponse<List<Product>>(
                     error = ResponseError(
                         serverError = e.message ?: e.localizedMessage ?: "",
                         clientError = "Something went wrong!"
-                    )
+                    ),
+                    paged = Paged(currentPage = page, totalPageSize = 0)
                 )
             )
         }
@@ -211,10 +231,11 @@ fun Route.addProductImage() {
     val createProducts by inject<UpdateProductUsecases>()
     post("/image/add") {
         try {
-            val productIdString = call.request.queryParameters.getOrFail("product_id")?.toLongOrNull() ?: throw IllegalArgumentException("Wrong format id!")
+            val productIdString = call.request.queryParameters.getOrFail("product_id")?.toLongOrNull()
+                ?: throw IllegalArgumentException("Wrong format id!")
             val productId = ProductId(productIdString)
             val uploadedFileMultipart = call.receiveMultipart()
-            val product = createProducts.uploadFile(uploadedFileMultipart,productId)
+            val product = createProducts.uploadFile(uploadedFileMultipart, productId)
             call.respond(
                 HttpStatusCode.Created,
                 Response<Product>(data = product)

@@ -48,7 +48,6 @@
 
 	<CategoryGrid />
 
-
 	<BottomBar />
 
 	<div class="my-12" />
