@@ -19,7 +19,7 @@ class ProductDB {
                     stockQuantity = 3912 * it,
                     imageUrls = listOf("https://picsum.photos/200/300"),
                     categoryId = CategoryId(value = 0),
-                    variants = emptyList()
+                    variants = (1..5).map { ProductId(it.toLong()) }
                 )
             )
         }
