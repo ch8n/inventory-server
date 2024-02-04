@@ -1,16 +1,35 @@
 <script lang="ts">
-	import CartComponent from '../../../../../lib/components/sections/cart-component.svelte';
-
+	import CartComponent from '$lib/components/sections/cart-component.svelte';
+	import OfferCarousels from '$lib/components/sections/carousel-offers.svelte';
 	import { page } from '$app/stores';
-	import type { Product } from '$lib/data/HomePage';
+	import type { OfferPagerItem, Product } from '$lib/data/HomePage';
 	import { onMount } from 'svelte';
 	import { cart, type CartItem } from '$lib/stores/cartStore';
 
 	let productId = $page.params.id;
 
 	let product: Product | null = null;
+	let bannerImages: OfferPagerItem[] = [];
 
-	onMount(async () => {
+	$: {
+		onFetchProduct();
+		if (product !== null) {
+			getPagerItems(product);
+		}
+	}
+
+	const getPagerItems = (product: Product) => {
+		let id = 0;
+		bannerImages = product.imageUrls.map((it) => {
+			id += 1;
+			return {
+				offerId: id.toString(),
+				bannerUrl: it
+			} as OfferPagerItem;
+		});
+	};
+
+	const onFetchProduct = async () => {
 		try {
 			const response = await fetch(`http://0.0.0.0:8080/v1/products?id=${productId}`);
 			if (response.ok) {
@@ -33,7 +52,7 @@
 		} catch (error) {
 			console.error('Error during fetch:', error.message);
 		}
-	});
+	};
 
 	const addToCart = () => {
 		let currentCart = $cart;
@@ -61,6 +80,8 @@
 </script>
 
 <div class="mx-auto px-6 py-6">
+	<OfferCarousels offerPagerItem={bannerImages} onOfferClicked={() => {}} />
+
 	<p class="text-xl">Product {productId}</p>
 	<p>Name - {product?.name}</p>
 
